@@ -15,9 +15,13 @@ import cors from 'cors'
 const initApp = (app, express) => {
 
     app.use(cors()) // allow access from anywhere
-    // app.use((req, res, next) => {
-    //     console.log(req.header('origin'));
-    // })
+    app.use((req, res, next) => {
+        if (req.originalUrl === '/order/webhook') {
+            next()
+        } else {
+            express.json({})(req, res, next)
+        }
+    })
 
     var whitelist = ['http://127.0.0.1:5500', 'http://example2.com']
     // var corsOptions = {
@@ -48,7 +52,7 @@ const initApp = (app, express) => {
     } else {
         app.use(morgan("common"))
     }
-    app.use(express.json({}))
+
     //Setup API Routing 
     app.get('/', (req, res, next) => {
         return res.status(200).send("Welcome to c39 E-commerce App.")

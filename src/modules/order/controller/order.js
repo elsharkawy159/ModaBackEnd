@@ -6,13 +6,14 @@ import sendEmail from "../../../utils/email.js";
 import { asyncHandler } from "../../../utils/errorHandling.js";
 import createInvoice from "../../../utils/pdf.js";
 import { clearCartProducts, deleteElementsFromCart } from "../../cart/controller/cart.js";
-
+import payment from '../../../utils/payment.js'
 import cloudinary from '../../../utils/cloudinary.js'
 import fs from 'fs'
 
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { nanoid } from "nanoid";
+import Stripe from "stripe";
 //set directory dirname 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 export const createOrder = asyncHandler(async (req, res, next) => {
@@ -89,6 +90,7 @@ export const createOrder = asyncHandler(async (req, res, next) => {
     }
 
     // Generate Invoice
+
     // try {
 
     //     const invoice = {
@@ -110,7 +112,8 @@ export const createOrder = asyncHandler(async (req, res, next) => {
 
     //     const customId = Date.now()
     //     await createInvoice(invoice, path.join(__dirname, `../PDF/invoice${customId}.pdf`));
-    //     const { secure_url } = await cloudinary.uploader.upload(path.join(__dirname, `../PDF/invoice${customId}.pdf`), { folder: `${process.env.APP_NAME}/Invoice` })
+    //     const { secure_url } = await cloudinary.uploader.upload(path.join(__dirname, `../PDF/invoice${customId}.pdf`),
+    //  { folder: `${process.env.APP_NAME}/Invoice` })
     //     await sendEmail({
     //         to: req.user.email, subject: "Invoice", attachments: [{
     //             path: secure_url,
@@ -132,11 +135,58 @@ export const createOrder = asyncHandler(async (req, res, next) => {
 
     // }
 
+
     // Payment
-    
+
+
+    if (order.paymentType == 'card') {
+        const session = await payment({
+            customer_email: req.user.email,
+            metadata: {
+                orderId: order._id.toString()
+            },
+            cancel_url: `${req.protocol}://${req.headers.host}/order/cancel?orderId=${order._id.toString()}`,
+            line_items: order.products.map(product => {
+                return {
+                    price_data: {
+                        currency: 'egp',
+                        product_data: {
+                            name: product.name
+                        },
+                        unit_amount: product.unitPrice * 100
+                    },
+                    quantity: product.quantity
+                }
+            })
+        })
+        return res.status(201).json({ message: "Done", order, session })
+
+    }
     return res.status(201).json({ message: "Done", order, invoice: req.body.Invoice })
 })
+export const webHook = asyncHandler(async (req, res, next) => {
+    const stripe = new Stripe(process.env.Secret_key);
 
+    const sig = req.headers['stripe-signature'];
+    let event;
+
+    try {
+        event = stripe.webhooks.constructEvent(req.body, sig, process.env.endpointSecret);
+    } catch (err) {
+        res.status(400).send(`Webhook Error: ${err.message}`);
+        return;
+    }
+
+    // Handle the event
+    const { orderId } = event.data.object.metadata
+    if (event.type != 'checkout.session.completed') {
+        await orderModel.updateOne({ _id: orderId }, { status: "rejected" })
+        return res.status(400).json({ message: "Rejected payment" })
+    }
+    await orderModel.updateOne({ _id: orderId }, { status: "placed" })
+    return res.status(200).json({ message: "Done" })
+ 
+})
 
 export const cancelOrder = asyncHandler(async (req, res, next) => {
     const { orderId } = req.params;

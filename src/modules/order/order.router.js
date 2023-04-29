@@ -4,6 +4,7 @@ import * as orderController from './controller/order.js'
 import { Router } from "express";
 import { validation } from '../../middleware/validation.js';
 import * as validators from './order.validation.js'
+import express from 'express';
 const router = Router()
 
 
@@ -26,6 +27,8 @@ router.patch('/:orderId/delivered',
     orderController.deliveredOrder)
 
 
+
+router.post('/webhook', express.raw({ type: 'application/json' }), orderController.webHook);
 
 
 export default router
