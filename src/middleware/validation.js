@@ -30,7 +30,6 @@ export const generalFields = {
 
 export const validation = (schema, considerHeaders = false) => {
     return (req, res, next) => {
-        console.log(req.params);
 
         let inputsData = { ...req.body, ...req.params, ...req.query }
         if (req.file || req.files) {

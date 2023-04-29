@@ -22,8 +22,7 @@ export const getSubcategories = asyncHandler(async (req, res, next) => {
 export const createSubcategory = asyncHandler(async (req, res, next) => {
 
     const { categoryId } = req.params;
-    console.log(categoryId);
-    console.log(req.originalUrl);
+
     if (!await categoryModel.findById(categoryId)) {
         return next(new Error(`In-valid category Id`, { cause: 400 }))
     }

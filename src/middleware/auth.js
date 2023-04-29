@@ -16,7 +16,6 @@ export const auth = (accessRoles = []) => {
         if (!authorization?.startsWith(process.env.BEARER_KEY)) {
             return next(new Error('In-valid bearer key', { cause: 400 }))
         }
-        console.log(authorization);
         const token = authorization.split(process.env.BEARER_KEY)[1]
         if (!token) {
             return next(new Error('Missing token', { cause: 400 }))
@@ -31,7 +30,6 @@ export const auth = (accessRoles = []) => {
             return next(new Error(`Not register account`, { cause: 401 }))
         }
         if (parseInt(user?.changePasswordTime?.getTime() / 1000) > decoded.iat) {
-            console.log({ changePasswordTime: parseInt(user?.changePasswordTime?.getTime() / 1000), token: decoded.iat });
             return next(new Error(`Expire token`, { cause: 401 }))
         }
         if (user.status == 'blocked') {

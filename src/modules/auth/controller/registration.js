@@ -134,7 +134,7 @@ export const confirmEmail = asyncHandler(async (req, res, next) => {
         return next(new Error("In-valid token payload", { cause: 400 }))
     }
     const user = await userModel.updateOne({ email: email.toLowerCase() }, { confirmEmail: true })
-    console.log(user);
+
     if (!user.matchedCount) {
         // return res.status(404).redirect(`${process.env.FE_URL}/#/invalidEmail`)
         // return res.status(404).render(`invalidEmail`, { message: "Not register account" })//EJS template
@@ -398,7 +398,7 @@ export const sendCode = asyncHandler(async (req, res, next) => {
 
 export const forgetPassword = asyncHandler(async (req, res, next) => {
     const { email, code, password } = req.body
-console.log(code);
+
     const user = await userModel.findOne({ email: email.toLowerCase() })
     if (!user) {
         return next(new Error('Not register account', { cause: 404 }))

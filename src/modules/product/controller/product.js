@@ -36,7 +36,7 @@ export const products = asyncHandler(async (req, res, next) => {
 })
 //500 -50& => 500*25/100 == 500 - 125 = 375
 export const createProduct = asyncHandler(async (req, res, next) => {
-    console.log(req.files);
+  
     const { name, price, discount, categoryId, subcategoryId, brandId } = req.body;
     //check  ids
     if (!await subcategoryModel.findOne({ _id: subcategoryId, categoryId })) {
