@@ -14,6 +14,13 @@ import morgan from "morgan";
 import cors from "cors";
 const initApp = (app, express) => {
   app.use(cors());
+  app.use((req, res, next) => {
+    if (req.originalUrl === "/order/webhook") {
+      next();
+    } else {
+      express.json({})(req, res, next);
+    }
+  });
 
   //convert Buffer Data
   if (process.env.MOOD == "DEV") {
