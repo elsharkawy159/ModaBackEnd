@@ -8,7 +8,9 @@ const router = Router();
 
 const { Admin } = roles;
 
-router.get("/", brandController.getBrand);
+router.get("/", (req, res, next) => {
+  res.send(`${process.env.APP_NAME} | Brand`);
+});
 
 router.post(
   "/",

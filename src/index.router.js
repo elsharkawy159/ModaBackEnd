@@ -15,13 +15,6 @@ import cors from "cors";
 const initApp = (app, express) => {
   connectDB();
   app.use(cors(), express.json());
-  app.use((req, res, next) => {
-    if (req.originalUrl === "/order/webhook") {
-      next();
-    } else {
-      express.json({})(req, res, next);
-    }
-  });
 
   //convert Buffer Data
   if (process.env.MOOD == "DEV") {
@@ -29,7 +22,7 @@ const initApp = (app, express) => {
   } else {
     app.use(morgan("common"));
   }
-
+  
   //Setup API Routing
   app.use(`/auth`, authRouter);
   app.use(`/vendor`, vendorRouter);
@@ -47,7 +40,6 @@ const initApp = (app, express) => {
       `${process.env.APP_NAME} | In-valid Routing, Please check URL or Method`
     );
   });
-
   app.use(globalErrorHandling);
 };
 
