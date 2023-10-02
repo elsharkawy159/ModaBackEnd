@@ -42,7 +42,9 @@ const initApp = (app, express) => {
   app.use(`/brand`, branRouter);
 
   app.all("*", (req, res, next) => {
-    res.send("In-valid Routing, Please check URL or Method");
+    res.send(
+      `(${process.env.APP_NAME})In-valid Routing, Please check URL or Method`
+    );
   });
 
   app.use(globalErrorHandling);
