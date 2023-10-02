@@ -16,7 +16,7 @@ const orderSchema = new Schema({
         unitPrice: { type: Number, default: 1, required: true },
         finalPrice: { type: Number, default: 1, required: true }
     }],
-    couponId: { type: Types.ObjectId, ref: 'Coupon' },
+    coupon: { type: Types.ObjectId, ref: 'Coupon' },
     subtotal: { type: Number, default: 1, required: true },
     finalPrice: { type: Number, default: 1, required: true },
     paymentType: { type: String, default: 'cash', enum: ['cash', 'card'], required: true },
