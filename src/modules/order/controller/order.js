@@ -16,7 +16,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { nanoid } from "nanoid";
-import Stripe from "stripe";
+
 //set directory dirname
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -208,7 +208,7 @@ export const createOrder = asyncHandler(async (req, res, next) => {
 });
 
 export const webHook = asyncHandler(async (req, res, next) => {
-  const stripe = new Stripe(process.env.Secret_key);
+  const stripe = require("stripe")(process.env.Secret_key);
 
   const sig = req.headers["stripe-signature"];
   let event;
