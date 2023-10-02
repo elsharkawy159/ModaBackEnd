@@ -13,7 +13,8 @@ import { globalErrorHandling } from "./utils/errorHandling.js";
 import morgan from "morgan";
 import cors from "cors";
 const initApp = (app, express) => {
-  app.use(cors());
+  connectDB();
+  app.use(cors(), express.json());
   app.use((req, res, next) => {
     if (req.originalUrl === "/order/webhook") {
       next();
@@ -41,15 +42,13 @@ const initApp = (app, express) => {
   app.use(`/order`, orderRouter);
   app.use(`/brand`, branRouter);
 
-  app.all("*", (req, res, next) => {
+  app.use("*", (req, res, next) => {
     res.send(
       `${process.env.APP_NAME} | In-valid Routing, Please check URL or Method`
     );
   });
 
   app.use(globalErrorHandling);
-
-  connectDB();
 };
 
 export default initApp;
