@@ -43,7 +43,7 @@ const initApp = (app, express) => {
 
   app.all("*", (req, res, next) => {
     res.send(
-      `(${process.env.APP_NAME})In-valid Routing, Please check URL or Method`
+      `${process.env.APP_NAME} | In-valid Routing, Please check URL or Method`
     );
   });
 
