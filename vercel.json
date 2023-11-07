@@ -4,14 +4,14 @@
     {
       "src": "./index.js",
       "use": "@vercel/node",
+      "cleanUrls": true,
       "maxDuration": 30
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/",
-      "maxDuration": 15
+      "dest": "/"
     }
   ]
 }
