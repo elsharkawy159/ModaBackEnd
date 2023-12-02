@@ -8,9 +8,10 @@ import { asyncHandler } from "../../../utils/errorHandling.js";
 import { nanoid } from "nanoid";
 import userModel from "../../../../DB/model/User.model.js";
 import { paginate } from "../../../utils/paginate.js";
+import categoryModel from "../../../../DB/model/Category.model.js";
 
 export const products = asyncHandler(async (req, res, next) => {
-  let { size, page, searchKey, ...filterQuery } = req.query;
+  let { size, page, searchKey, category, ...filterQuery } = req.query;
 
   const mongooseQuery = productModel.find().populate([
     { path: "review", populate: { path: "createdBy", select: "userName" } },
@@ -31,6 +32,13 @@ export const products = asyncHandler(async (req, res, next) => {
       $or: [{ name: { $regex: searchKey, $options: "i" } }],
     };
   }
+
+ if (category) {
+   // Assuming category is the name of the category
+   const categoryData = await categoryModel.findOne({ name: category });
+
+   filterQuery.categoryId = categoryData._id; // Assuming categoryId is the field that references categories in the productModel
+ }
 
   mongooseQuery.find(filterQuery);
 
