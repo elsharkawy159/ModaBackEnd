@@ -25,7 +25,7 @@ export const products = asyncHandler(async (req, res, next) => {
 
   const { skip, limit } = paginate(page, size);
   mongooseQuery.skip(skip).limit(limit);
-  console.log(filterQuery);
+
   if (req.query.searchKey) {
     filterQuery = {
       ...filterQuery,
@@ -33,12 +33,12 @@ export const products = asyncHandler(async (req, res, next) => {
     };
   }
 
- if (category) {
-   // Assuming category is the name of the category
-   const categoryData = await categoryModel.findOne({ name: category });
+  if (req.query.category) {
+    // Assuming category is the name of the category
+    const categoryData = await categoryModel.findOne({ name: category });
 
-   filterQuery.categoryId = categoryData._id; // Assuming categoryId is the field that references categories in the productModel
- }
+    filterQuery.categoryId = categoryData._id; // Assuming categoryId is the field that references categories in the productModel
+  }
 
   mongooseQuery.find(filterQuery);
 
