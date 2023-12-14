@@ -11,7 +11,7 @@ import { paginate } from "../../../utils/paginate.js";
 import categoryModel from "../../../../DB/model/Category.model.js";
 
 export const products = asyncHandler(async (req, res, next) => {
-  let { size, page, searchKey, category, ...filterQuery } = req.query;
+  let { size, page, searchKey, categoryId, ...filterQuery } = req.query;
 
   const mongooseQuery = productModel.find().populate([
     { path: "review", populate: { path: "createdBy", select: "userName" } },
@@ -33,11 +33,14 @@ export const products = asyncHandler(async (req, res, next) => {
     };
   }
 
-  if (req.query.category) {
-    // Assuming category is the name of the category
-    const categoryData = await categoryModel.findOne({ name: category });
+  if (categoryId) {
+    const categoryData = await categoryModel.findOne({ _id: categoryId });
 
-    filterQuery.categoryId = categoryData._id; // Assuming categoryId is the field that references categories in the productModel
+    if (categoryData) {
+      filterQuery.categoryId = categoryData._id; // Use the category's unique identifier
+    } else {
+      return res.status(404).json({ message: "Category not found" });
+    }
   }
 
   mongooseQuery.find(filterQuery);
