@@ -42,9 +42,9 @@ export const products = asyncHandler(async (req, res, next) => {
       return res.status(404).json({ message: "Category not found" });
     }
   }
-  
+
   mongooseQuery.find(filterQuery);
-  
+
   if (req.query.fields) {
     const fields = req.query.fields.replace(/,/g, " ");
     mongooseQuery.select(fields);
@@ -53,7 +53,7 @@ export const products = asyncHandler(async (req, res, next) => {
     const sort = req.query.sort.replace(/,/g, " ");
     mongooseQuery.sort(sort);
   }
-  
+
   const products = await mongooseQuery;
   const productsCount = await productModel.countDocuments(filterQuery);
 
