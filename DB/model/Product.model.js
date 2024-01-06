@@ -15,7 +15,7 @@ const productSchema = new Schema(
     colors: [String],
     size: {
       type: [String],
-      enum: ["s", "m", "lg", "xl", "xxl", "xxxl"],
+      enum: ["s", "m", "l", "lg", "xl", "xxl", "xxxl"],
     },
     top: { type: Boolean, default: false },
     new: { type: Boolean, default: false },
