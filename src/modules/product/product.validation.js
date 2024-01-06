@@ -22,7 +22,7 @@ export const product = joi
     top: joi.boolean(),
     new: joi.boolean(),
     handMade: joi.boolean(),
-    stock: joi.number().positive().integer().min(1).required(),
+    stock: joi.number().min(0).required(),
     price: joi.number().positive().min(1).required(),
     discount: joi.number().positive().min(1),
     pepareDays: joi.number().positive(),
