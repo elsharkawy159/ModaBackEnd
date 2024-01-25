@@ -12,17 +12,18 @@ import connectDB from "../DB/connection.js";
 import { globalErrorHandling } from "./utils/errorHandling.js";
 import morgan from "morgan";
 import cors from "cors";
+import compression from "compression";
 const initApp = (app, express) => {
   connectDB();
   app.use(cors(), express.json());
-
+  app.use(compression());
   //convert Buffer Data
   if (process.env.MOOD == "DEV") {
     app.use(morgan("dev"));
   } else {
     app.use(morgan("common"));
   }
-  
+
   //Setup API Routing
   app.use(`/auth`, authRouter);
   app.use(`/vendor`, vendorRouter);
