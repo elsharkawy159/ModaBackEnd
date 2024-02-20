@@ -389,7 +389,7 @@ export const signIn = asyncHandler(async (req, res, next) => {
     message: "Logged in successfully",
     access_token,
     refresh_token,
-    userName: user.username,
+    userN: user.username,
   });
 });
 
