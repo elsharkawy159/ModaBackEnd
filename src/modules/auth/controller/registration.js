@@ -389,9 +389,9 @@ export const signIn = asyncHandler(async (req, res, next) => {
     message: "Logged in successfully",
     access_token,
     refresh_token,
+    user,
   });
 });
-
 
 export const sendCode = asyncHandler(async (req, res, next) => {
   const { email } = req.body;
