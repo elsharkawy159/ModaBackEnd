@@ -138,7 +138,10 @@ export const createProduct = asyncHandler(async (req, res, next) => {
 
   const product = await productModel.create(req.body);
 
-  return res.status(201).json({ product });
+  return res.status(201).json({
+    success: true,
+    message: "Product Added Successfully",
+  });
 });
 
 export const updateProduct = asyncHandler(async (req, res, next) => {
