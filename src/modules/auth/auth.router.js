@@ -20,9 +20,17 @@ router.put(
   authController.updateUser
 );
 
-router.get("/confirmEmail/:token", authController.confirmEmail);
+router.get(
+  "/confirmEmail/:token",
+  validation(validators.token),
+  authController.confirmEmail
+);
 
-router.get("/NewConfirmEmail/:token", authController.RequestNewConfirmEmail);
+router.get(
+  "/NewConfirmEmail/:token",
+  validation(validators.token),
+  authController.RequestNewConfirmEmail
+);
 
 router.post("/signin", validation(validators.signIn), authController.signIn);
 

@@ -298,7 +298,7 @@ export const RequestNewConfirmEmail = asyncHandler(async (req, res, next) => {
     </tr>
     <tr>
     <td>
-    <a href="${link}" style="margin:10px 0px 30px 0px;border-radius:4px;padding:10px 20px;border: 0;color:#fff;background-color:#630E2B; ">Verify Email address</a>
+    <a href="${link}" style="margin:10px 0px 30px 0px;border-radius:4px;padding:10px 20px;border: 0;color:#fff;background-color:#630E2B; ">Verify Email Address</a>
     </td>
     </tr>
     <tr>
@@ -311,7 +311,7 @@ export const RequestNewConfirmEmail = asyncHandler(async (req, res, next) => {
     <br>
     <br>
     <br>
-    <a href="${rfLink}" style="margin:10px 0px 30px 0px;border-radius:4px;padding:10px 20px;border: 0;color:#fff;background-color:#630E2B; ">Request new  esmail </a>
+    <a href="${rfLink}" style="margin:10px 0px 30px 0px;border-radius:4px;padding:10px 20px;border: 0;color:#fff;background-color:#630E2B; ">Request New  Email </a>
     </td>
     </tr>
     </table>

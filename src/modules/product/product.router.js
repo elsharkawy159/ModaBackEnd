@@ -16,7 +16,7 @@ router.get("/:productSlug", productController.productDetails);
 
 router.post(
   "/",
-  auth([Admin, Vendor]),
+  auth([Admin, Vendor, User]),
   fileUpload(fileValidation.image).fields([
     { name: "mainImage", maxCount: 1 },
     { name: "subImages", maxCount: 5 },
