@@ -11,18 +11,18 @@ router.get("/", auth(User), cartController.getUserCart);
 
 router.post(
   "/",
-  auth([Admin, Vendor, User]),
+  auth(User),
   validation(validators.addToCart),
   cartController.addToCart
 );
 
 router.patch(
   "/remove",
-  auth([Admin, Vendor, User]),
+  auth(User),
   validation(validators.deleteFromCart),
   cartController.deleteFromCart
 );
 
-router.patch("/clear", auth([Admin, Vendor, User]), cartController.clearCart);
+router.patch("/clear", auth(User), cartController.clearCart);
 
 export default router;
