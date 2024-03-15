@@ -5,7 +5,7 @@ import { auth, roles } from "../../middleware/auth.js";
 import { Router } from "express";
 const router = Router();
 
-const { Admin, User, Vendor } = roles;
+const { User } = roles;
 
 router.get("/", auth(User), cartController.getUserCart);
 
