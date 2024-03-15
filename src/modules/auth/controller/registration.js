@@ -227,7 +227,6 @@ export const confirmEmail = asyncHandler(async (req, res, next) => {
   }
 });
 
-
 export const RequestNewConfirmEmail = asyncHandler(async (req, res, next) => {
   const { token } = req.params;
   const { email } = verifyToken({ token, signature: process.env.EMAIL_TOKEN });
