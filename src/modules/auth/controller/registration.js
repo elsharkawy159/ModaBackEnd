@@ -214,19 +214,19 @@ export const confirmEmail = asyncHandler(async (req, res, next) => {
   if (!email) {
     return next(new Error("In-valid token payload", { cause: 400 }));
   }
-  const user = await userModel.updateOne(
+
+  const result = await userModel.updateOne(
     { email: email.toLowerCase() },
     { confirmEmail: true }
   );
 
-  if (!user.matchedCount) {
-    // return res.status(404).redirect(`${process.env.FE_URL}/#/invalidEmail`)
-    // return res.status(404).render(`invalidEmail`, { message: "Not register account" })//EJS template
-    return res.status(404).send(`<p>Not register account.</p>`);
+  if (result.nModified === 0) {
+    return res.status(400).send(`<p>Not registered account.</p>`);
   } else {
-    return res.status(404).redirect(`${process.env.FE_URL}/login`);
+    return res.status(200).redirect(`${process.env.FE_URL}/login`);
   }
 });
+
 
 export const RequestNewConfirmEmail = asyncHandler(async (req, res, next) => {
   const { token } = req.params;
