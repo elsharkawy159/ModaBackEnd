@@ -224,7 +224,7 @@ export const confirmEmail = asyncHandler(async (req, res, next) => {
     // return res.status(404).render(`invalidEmail`, { message: "Not register account" })//EJS template
     return res.status(404).send(`<p>Not register account.</p>`);
   } else {
-    return res.status(404).redirect(`${process.env.FE_URL}/#/login`);
+    return res.status(404).redirect(`${process.env.FE_URL}/login`);
   }
 });
 

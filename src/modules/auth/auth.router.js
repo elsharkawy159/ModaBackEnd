@@ -22,7 +22,6 @@ router.put(
 
 router.get(
   "/confirmEmail/:token",
-  validation(validators.token),
   authController.confirmEmail
 );
 
