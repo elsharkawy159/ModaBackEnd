@@ -24,17 +24,17 @@ export const generalFields = {
     originalname: joi.string().required(),
     fieldname: joi.string().required(),
   }),
-  phone: joi
-    .array()
-    .items(
-      joi
-        .string()
-        .pattern(new RegExp(/^(002|\+2)?01[0125][0-9]{8}$/))
-        .required()
-    )
-    .min(1)
-    .max(3)
-    .required(),
+    phone: joi
+      .array()
+      .items(
+        joi
+          .string()
+          .pattern(new RegExp(/^(002|\+2)?01[0125][0-9]{8}$/))
+          .required()
+      )
+      .min(1)
+      .max(3)
+      .required(),
   gender: joi.string().valid("male", "female").required(),
   type: joi.string().valid("Company", "Personal").required(),
   specialization: joi.string().required(),
